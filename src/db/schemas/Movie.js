@@ -1,17 +1,17 @@
 const { Schema } = require('mongoose');
 
 const AwardSchema = require('./Award');
-const DirectorSchema = require('./Director');
 
 const MovieSchema = new Schema({
     name: {
-        type: String,
+        type: 'String',
         required: true,
         unique: true,
         trim: true
     },
     director: {
-        type: DirectorSchema,
+        type: Schema.Types.ObjectId,
+        ref: 'Director',
         required: true
     },
     year: {

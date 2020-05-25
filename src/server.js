@@ -3,6 +3,8 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
+
+const directorRouter = require('./routes/directorRouter');
 const movieRouter = require('./routes/movieRouter');
 
 const app = express();
@@ -16,6 +18,7 @@ app.get('/', (req, res) => {
     });
 });
 
+app.use(directorRouter);
 app.use(movieRouter);
 
 mongoose.connect(process.env.MONGODB_URI, {

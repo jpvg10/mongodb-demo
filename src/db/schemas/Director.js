@@ -2,8 +2,9 @@ const { Schema } = require('mongoose');
 
 const DirectorSchema = new Schema({
     name: {
-        type: String,
+        type: 'String',
         required: true,
+        unique: true,
         trim: true
     }
 });

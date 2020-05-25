@@ -1,10 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
+const Director = require('../db/models/Director');
 const Movie = require('../db/models/Movie');
 
 router.post('/movies', async (req, res) => {
     const movieData = req.body;
+
+    const director = await Director.findById(movieData.director);
+
+    if (!director) return res.status(404).send({ message: 'Director not found' });
+
     const movie = new Movie(movieData);
     try {
         await movie.save();
