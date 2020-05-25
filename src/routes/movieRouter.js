@@ -22,7 +22,7 @@ router.post('/movies', async (req, res) => {
 
 router.get('/movies', async (req, res) => {
     try {
-        const movies = await Movie.find({});
+        const movies = await Movie.find({}).populate('director');
         res.status(200).send(movies);
     } catch (e) {
         res.status(500).send();
@@ -33,7 +33,7 @@ router.get('/movies/:id', async (req, res) => {
     const id = req.params.id;
 
     try {
-        const movie = await Movie.findById(id);
+        const movie = await Movie.findById(id).populate('director');
 
         if (!movie) res.status(404).send();
 
