@@ -41,7 +41,7 @@ router.get('/movies', async (req, res) => {
         const movies = await Movie.find(filterOptions).populate('director');
         res.status(200).send(movies);
     } catch (e) {
-        res.status(500).send();
+        res.status(500).send(e);
     }
 });
 
@@ -54,7 +54,24 @@ router.get('/movies/:id', verifyId, async (req, res) => {
 
         res.status(200).send(movie);
     } catch (e) {
-        res.status(500).send();
+        res.status(500).send(e);
+    }
+});
+
+router.patch('/movies/:id', verifyId, async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const movie = await Movie.findByIdAndUpdate(
+            id,
+            req.body,
+            { new: true, runValidators: true }
+        );
+        if (!movie) res.status(404).send();
+
+        res.status(200).send(movie);
+    } catch (e) {
+        res.status(500).send(e);
     }
 });
 

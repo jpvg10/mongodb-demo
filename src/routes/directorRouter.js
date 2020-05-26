@@ -33,7 +33,24 @@ router.get('/directors/:id', verifyId, async (req, res) => {
 
         res.status(200).send(director);
     } catch (e) {
-        res.status(500).send();
+        res.status(500).send(e);
+    }
+});
+
+router.patch('/directors/:id', verifyId, async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const director = await Director.findByIdAndUpdate(
+            id,
+            req.body,
+            { new: true, runValidators: true }
+        );
+        if (!director) res.status(404).send();
+
+        res.status(200).send(director);
+    } catch (e) {
+        res.status(500).send(e);
     }
 });
 
