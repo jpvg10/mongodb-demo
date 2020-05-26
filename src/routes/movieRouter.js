@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 
+const verifyId = require('../middleware/verifyId');
 const Director = require('../db/models/Director');
 const Movie = require('../db/models/Movie');
 
@@ -44,9 +45,9 @@ router.get('/movies', async (req, res) => {
     }
 });
 
-router.get('/movies/:id', async (req, res) => {
+router.get('/movies/:id', verifyId, async (req, res) => {
     try {
-        const id = req.params.id;
+        const { id } = req.params;
 
         const movie = await Movie.findById(id).populate('director');
         if (!movie) res.status(404).send();

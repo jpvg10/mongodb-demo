@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+const verifyId = require('../middleware/verifyId');
 const Director = require('../db/models/Director');
 
 router.post('/directors', async (req, res) => {
@@ -23,9 +24,9 @@ router.get('/directors', async (req, res) => {
     }
 });
 
-router.get('/directors/:id', async (req, res) => {
+router.get('/directors/:id', verifyId, async (req, res) => {
     try {
-        const id = req.params.id;
+        const { id } = req.params;
 
         const director = await Director.findById(id);
         if (!director) res.status(404).send();
